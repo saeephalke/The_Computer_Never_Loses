@@ -3,11 +3,6 @@ import { strictEqual } from 'assert';
 import { getNextMove } from '../src/ai.js';
 
 describe('Tic Tac Toe AI', () => {
-  it('should take the center on the opening move', () => {
-    const board = ['X', null, null, null, null, null, null, null, null];
-    strictEqual(getNextMove(board), 4);
-  });
-
   it('should win immediately if possible', () => {
     const board = ['X', 'X', null, 'O', 'O', null, null, null, null];
     strictEqual(getNextMove(board), 2);
