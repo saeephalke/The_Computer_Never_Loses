@@ -1,6 +1,6 @@
 //CODE: src/server.js
 const express = require('express');
-const { getNextMove } = require('./ai');
+const { getNextMove } = require('./ai.js');
 
 const app = express();
 app.use(express.json());
