@@ -1,0 +1,16 @@
+Create a module for an AI that plays tic tac toe against a player  
+
+Requirements
+- Ensure the AI is always playing as X, assume the AI is playing first
+- A main function to take the board and output the index of the board's next move
+- A helper function to use a minimaxing to calculate the next best move based on the current board layout
+- Ensure that no matter what, the AI wins or draws, don't allow it to make any mistake, always ensure perfect play
+
+Instructions
+- Build the main function, name it getNextMove, the main function returns the integer where its next best move is
+- Assume the input board for getNextMove is a an array of length 9, filled with either 'X', 'O' or null characters
+- Build the minimaxing helper function that will be called in the main function
+
+Deliverables
+- Code: "src/ai.js"
+- Tests: "tests/ai_tests.js"
