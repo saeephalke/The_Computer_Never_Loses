@@ -1,17 +1,17 @@
 //TEST: test/server_test.js
-import { expect } from 'chai';
-import request from 'supertest';
-import proxyquire from 'proxyquire';
-import { stub, assert } from 'sinon';
+const { expect } = require('chai');
+const request = require('supertest');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
 
 describe('GET /api/next-move', () => {
   let getNextMoveStub;
   let app;
 
   const mountApp = () => {
-    getNextMoveStub = stub();
+    getNextMoveStub = sinon.stub();
     app = proxyquire('../src/server', {
-      './ai.js': { getNextMove: getNextMoveStub },
+      './ai': { getNextMove: getNextMoveStub },
     });
   };
 
@@ -30,7 +30,7 @@ describe('GET /api/next-move', () => {
       .expect(200);
 
     expect(response.body).to.deep.equal(nextMoveResult);
-    assert.calledOnce(getNextMoveStub);
+    sinon.assert.calledOnce(getNextMoveStub);
     const passedBoard = getNextMoveStub.firstCall.args[0];
     expect(passedBoard).to.deep.equal(board);
   });
@@ -40,7 +40,7 @@ describe('GET /api/next-move', () => {
       .get('/api/next-move')
       .send({ board: ['X', 'O'] })
       .expect(400);
-    assert.notCalled(getNextMoveStub);
+    sinon.assert.notCalled(getNextMoveStub);
   });
 
   it('returns 500 when getNextMove throws an error', async () => {

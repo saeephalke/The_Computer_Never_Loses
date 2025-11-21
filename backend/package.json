@@ -6,7 +6,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha --exit tests/**/*.js"
+    "test": "mocha --exit tests/**/*.js",
+    "start": "node src/server_fixed.js"
   },
   "keywords": [],
   "author": "",

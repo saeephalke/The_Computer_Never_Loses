@@ -7,6 +7,7 @@ Instructions:
 - create a get request where the req input includes a json with the board data
 - the board data will be an array of length 9, the only data inside of the array is "X", "O" or null
 - the return json should return the output of the getNextMove() method in the ai.js file 
+- don't do any imports are ES Module
 
 Deliverables
 - CODE: src/server.js

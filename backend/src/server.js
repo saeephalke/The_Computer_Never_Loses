@@ -1,9 +1,9 @@
 //CODE: src/server.js
-import express, { json } from 'express';
-import { getNextMove } from './ai.js';
+const express = require('express');
+const { getNextMove } = require('./ai.js');
 
 const app = express();
-app.use(json());
+app.use(express.json());
 
 const isValidBoard = (board) =>
   Array.isArray(board) &&
@@ -38,4 +38,4 @@ if (require.main === module) {
   });
 }
 
-export default app;
+module.exports = app;
