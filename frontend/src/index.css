@@ -11,3 +11,130 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0b0c10;
+  color: #f8f9fa;
+}
+
+body,
+#root {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreboard {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  background: rgba(15, 23, 42, 0.65);
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.score--x {
+  color: #e63946;
+}
+
+.score--o {
+  color: #16db65;
+}
+
+.title {
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status {
+  margin: 0;
+  font-size: 1.25rem;
+  min-height: 1.5rem;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  width: min(90vw, 90vh);
+  height: min(90vw, 90vh);
+}
+
+.cell {
+  background: #1f2833;
+  border: none;
+  border-radius: 1rem;
+  font-size: clamp(2.5rem, 10vw, 5.5rem);
+  font-weight: 700;
+  color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+  aspect-ratio: 1 / 1;
+}
+
+.cell:hover:not(:disabled) {
+  transform: translateY(-4px);
+  background: #30475e;
+}
+
+.cell:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.cell--x {
+  color: #e63946; /* red X */
+}
+
+.cell--o {
+  color: #16db65; /* green O */
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+.reset {
+  padding: 0.85rem 1.6rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e63946, #ee8f17);
+  color: #0b0c10;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+}
+
+.reset:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .scoreboard {
+    position: static;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+}

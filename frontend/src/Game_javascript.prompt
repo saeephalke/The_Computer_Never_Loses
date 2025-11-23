@@ -1,0 +1,13 @@
+You're a react developer creating a UI for a TicTacToe webapp where the player plays against a computer
+
+Instructions:
+- create a React UI to play TicTacToe
+- ensure the computer plays first as X
+- make sure that the text for X is red, and the text for O is green
+- make sure the board is 3x3 and takes up the majority of the screen
+- in the code the board is a 1-d array of length 9 filled with values "X", "O" or null
+- provide css code in the comments to style the board
+- locally store the computer wins, and player wins, display them in the corner of the screen
+- localhost:3000/api/api/next-move takes in the board in the request's body and will give the output of index of the AI's next move
+- don't allow the player to play while the computer is playing
+- show whose turn it is, or who won
