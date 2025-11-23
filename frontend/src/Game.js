@@ -128,8 +128,9 @@ export default function Game() {
 
     try {
       const response = await fetch(API_URL, {
-        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        mode: 'cors',
         body: JSON.stringify({ board }),
       });
 
