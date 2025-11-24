@@ -82,6 +82,13 @@ function getNextMove(board) {
     throw new Error('Board must be an array of length 9.');
   }
 
+  const isBoardEmpty = board.every((cell) => cell === null);
+  if (isBoardEmpty) {
+    const corners = [0, 2, 6, 8];
+    const randomIndex = Math.floor(Math.random() * corners.length);
+    return corners[randomIndex];
+  }
+
   const move = minimax([...board], 0, true);
   if (move.index === null) {
     throw new Error('No valid moves available.');

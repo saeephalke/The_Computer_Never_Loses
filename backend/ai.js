@@ -82,6 +82,13 @@ function getNextMove(board) {
     throw new Error('Board must be an array of length 9.');
   }
 
+  const isBoardEmpty = board.every((cell) => cell === null);
+  if (isBoardEmpty) {
+    const corners = [0, 2, 6, 8];
+    const randomIndex = Math.floor(Math.random() * corners.length);
+    return corners[randomIndex];
+  }
+
   const move = minimax([...board], 0, true);
   if (move.index === null) {
     throw new Error('No valid moves available.');
@@ -100,9 +107,16 @@ const assert = require('assert');
 const { getNextMove } = require('../src/ai');
 
 describe('Tic Tac Toe AI', () => {
-  it('should take the center on the opening move', () => {
-    const board = ['X', null, null, null, null, null, null, null, null];
-    assert.strictEqual(getNextMove(board), 4);
+  it('should select one of the corners on an empty board with variation', () => {
+    const corners = [0, 2, 6, 8];
+    const seen = new Set();
+    for (let i = 0; i < 20; i += 1) {
+      const board = Array(9).fill(null);
+      const move = getNextMove(board);
+      assert.ok(corners.includes(move), 'Opening move must be a corner');
+      seen.add(move);
+    }
+    assert.ok(seen.size >= 2, 'AI should vary its corner selection over multiple runs');
   });
 
   it('should win immediately if possible', () => {

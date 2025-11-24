@@ -4,7 +4,7 @@ const request = require('supertest');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
 
-describe('GET /api/next-move', () => {
+describe('POST /api/next-move', () => {
   let getNextMoveStub;
   let app;
 

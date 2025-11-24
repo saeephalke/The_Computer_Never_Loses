@@ -10,6 +10,7 @@ Instructions
 - Build the main function, name it getNextMove, the main function returns the integer where its next best move is
 - Assume the input board for getNextMove is a an array of length 9, filled with either 'X', 'O' or null characters
 - Build the minimaxing helper function that will be called in the main function
+- if the board is empty, allow for variation, and let the ai pick any of the four corners equally
 
 Deliverables
 - Code: "src/ai.js"

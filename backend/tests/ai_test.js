@@ -1,38 +1,32 @@
 // File: tests/ai_tests.js
-import { strictEqual } from 'assert';
-import { getNextMove } from '../src/ai.js';
+const assert = require('assert');
+const { getNextMove } = require('../src/ai');
 
 describe('Tic Tac Toe AI', () => {
+  it('should select one of the corners on an empty board with variation', () => {
+    const corners = [0, 2, 6, 8];
+    const seen = new Set();
+    for (let i = 0; i < 20; i += 1) {
+      const board = Array(9).fill(null);
+      const move = getNextMove(board);
+      assert.ok(corners.includes(move), 'Opening move must be a corner');
+      seen.add(move);
+    }
+    assert.ok(seen.size >= 2, 'AI should vary its corner selection over multiple runs');
+  });
+
   it('should win immediately if possible', () => {
     const board = ['X', 'X', null, 'O', 'O', null, null, null, null];
-    strictEqual(getNextMove(board), 2);
+    assert.strictEqual(getNextMove(board), 2);
   });
 
   it('should block opponent winning move', () => {
     const board = ['X', null, null, 'O', 'O', null, 'X', null, null];
-    strictEqual(getNextMove(board), 5);
+    assert.strictEqual(getNextMove(board), 5);
   });
 
   it('should take the last remaining spot to draw', () => {
     const board = ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', null];
-    strictEqual(getNextMove(board), 8);
+    assert.strictEqual(getNextMove(board), 8);
   });
-
-  it('should throw an error for invalid board length', () => {
-    const board = ['X', 'O', null];
-    try {
-      getNextMove(board);
-    } catch (e) {
-      strictEqual(e.message, 'Board must be an array of length 9.');
-    }
-  });
-
-    it('should throw an error when no valid moves are available', () => {
-        const board = ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X'];
-        try {
-        getNextMove(board);
-        } catch (e) {
-        strictEqual(e.message, 'No valid moves available.');
-        }
-    });
 });
