@@ -30,7 +30,7 @@ export default function Game() {
   const [isComputing, setIsComputing] = useState(false);
   const [status, setStatus] = useState("Computer's turn");
   const [winner, setWinner] = useState(null);
-  const [scores, setScores] = useState({ computer: 0, player: 0 });
+  const [scores, setScores] = useState({ computer: 0, player: 0, draw: 0 });
   const aiRequestIdRef = useRef(0);
 
   // 🔥 New: always keep latest board in a ref
@@ -78,6 +78,7 @@ export default function Game() {
         const updated = {
           computer: win === 'X' ? prev.computer + 1 : prev.computer,
           player: win === 'O' ? prev.player + 1 : prev.player,
+          draw: prev.draw || 0,
         };
         if (typeof window !== 'undefined') {
           window.localStorage.setItem('tttScores', JSON.stringify(updated));
@@ -93,6 +94,17 @@ export default function Game() {
       setStatus("It's a draw!");
       setCurrentTurn(null);
       setIsComputing(false);
+
+      setScores((prev) => {
+        const updated = {
+          ...prev,
+          draw: (prev.draw || 0) + 1,
+        };
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem('tttScores', JSON.stringify(updated));
+        }
+        return updated;
+      });
       return;
     }
 
@@ -188,6 +200,9 @@ export default function Game() {
         </div>
         <div>
           You (O): <span className="score score--o">{scores.player/2}</span>
+        </div>
+        <div>
+          Draws: <span className="score score--draw">{scores.draw/2}</span>
         </div>
       </div>
 
