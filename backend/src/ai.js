@@ -77,7 +77,6 @@ function minimax(board, depth, isMaximizing) {
  * @param {Array<string|null>} board
  * @returns {number} index of the best move
  */
-
 function getNextMove(board) {
   if (!Array.isArray(board) || board.length !== 9) {
     throw new Error('Board must be an array of length 9.');
