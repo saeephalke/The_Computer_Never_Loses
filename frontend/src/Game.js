@@ -191,7 +191,7 @@ export default function Game() {
         </div>
       </div>
 
-      <h1 className="title">Tic-Tac-Toe</h1>
+      <h1 className="title">The Computer Never Loses</h1>
       <p className="status">{status}</p>
 
       <div className="board">
