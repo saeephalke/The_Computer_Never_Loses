@@ -58,10 +58,12 @@ export default function Game() {
 
   // AI moves automatically
   useEffect(() => {
-    if (currentTurn === 'X' && !winner) {
-      requestComputerMove();
-    }
-  }, [currentTurn, winner]);
+  if (winner) return;
+
+  if (currentTurn === 'X') {
+    requestComputerMove();
+  }
+}, [currentTurn, winner]);
 
   const evaluateBoard = (updatedBoard, symbolJustPlayed) => {
     const win = calculateWinner(updatedBoard);
@@ -182,10 +184,10 @@ export default function Game() {
     <div className="app">
       <div className="scoreboard">
         <div>
-          Computer (X): <span className="score score--x">{scores.computer}</span>
+          Computer (X): <span className="score score--x">{scores.computer/2}</span>
         </div>
         <div>
-          You (O): <span className="score score--o">{scores.player}</span>
+          You (O): <span className="score score--o">{scores.player/2}</span>
         </div>
       </div>
 
