@@ -11,7 +11,7 @@ const isValidBoard = (board) =>
   board.length === 9 &&
   board.every((cell) => cell === 'X' || cell === 'O' || cell === null);
 
-app.post('/api/next-move', (req, res) => {
+app.get('/api/next-move', (req, res) => {
   const { board } = req.body || {};
 
   if (!isValidBoard(board)) {

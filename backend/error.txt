@@ -1,0 +1,74 @@
+
+> backend@1.0.0 test
+> mocha --exit tests/**/*.js
+
+
+
+  Tic Tac Toe AI
+    ✔ should select one of the corners on an empty board with variation
+    ✔ should win immediately if possible
+    ✔ should block opponent winning move
+    ✔ should take the last remaining spot to draw
+
+  POST /api/next-move
+    1) returns the JSON output from getNextMove
+    2) returns 400 when board data is invalid
+    3) returns 500 when getNextMove throws an error
+
+
+  4 passing (174ms)
+  3 failing
+
+  1) POST /api/next-move
+       returns the JSON output from getNextMove:
+     Error: expected 200 "OK", got 404 "Not Found"
+      at Context.<anonymous> (tests/server_test.js:30:8)
+      at process.processImmediate (node:internal/timers:511:21)
+  ----
+      at Test._assertStatus (node_modules/supertest/lib/test.js:309:14)
+      at /Users/saeephalke/Desktop/never-loses-ttt/backend/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (node_modules/supertest/lib/test.js:195:23)
+      at localAssert (node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (node_modules/supertest/lib/test.js:152:11)
+      at Object.onceWrapper (node:events:621:28)
+      at Server.emit (node:events:507:28)
+      at emitCloseNT (node:net:2416:8)
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+
+  2) POST /api/next-move
+       returns 400 when board data is invalid:
+     Error: expected 400 "Bad Request", got 404 "Not Found"
+      at Context.<anonymous> (tests/server_test.js:42:8)
+      at process.processImmediate (node:internal/timers:511:21)
+  ----
+      at Test._assertStatus (node_modules/supertest/lib/test.js:309:14)
+      at /Users/saeephalke/Desktop/never-loses-ttt/backend/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (node_modules/supertest/lib/test.js:195:23)
+      at localAssert (node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (node_modules/supertest/lib/test.js:152:11)
+      at Object.onceWrapper (node:events:621:28)
+      at Server.emit (node:events:507:28)
+      at emitCloseNT (node:net:2416:8)
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+
+  3) POST /api/next-move
+       returns 500 when getNextMove throws an error:
+     Error: expected 500 "Internal Server Error", got 404 "Not Found"
+      at Context.<anonymous> (tests/server_test.js:53:8)
+      at process.processImmediate (node:internal/timers:511:21)
+  ----
+      at Test._assertStatus (node_modules/supertest/lib/test.js:309:14)
+      at /Users/saeephalke/Desktop/never-loses-ttt/backend/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (node_modules/supertest/lib/test.js:195:23)
+      at localAssert (node_modules/supertest/lib/test.js:138:14)
+      at Server.<anonymous> (node_modules/supertest/lib/test.js:152:11)
+      at Object.onceWrapper (node:events:621:28)
+      at Server.emit (node:events:507:28)
+      at emitCloseNT (node:net:2416:8)
+      at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+
+
+
