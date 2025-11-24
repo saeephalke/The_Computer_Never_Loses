@@ -11,3 +11,4 @@ Instructions:
 - localhost:3000/api/api/next-move takes in the board in the request's body and will give the output of index of the AI's next move
 - don't allow the player to play while the computer is playing
 - show whose turn it is, or who won
+- recheck the code before providing to make sure that there are no deadlocks that make it so that no players can play

@@ -27,13 +27,19 @@ const getEmptyIndices = (cells) =>
 export default function Game() {
   const [board, setBoard] = useState(() => Array(9).fill(null));
   const [currentTurn, setCurrentTurn] = useState('X');
-  const [isComputing, setIsComputing] = useState(true);
+  const [isComputing, setIsComputing] = useState(false);
   const [status, setStatus] = useState("Computer's turn");
   const [winner, setWinner] = useState(null);
   const [scores, setScores] = useState({ computer: 0, player: 0 });
-  const [lastMove, setLastMove] = useState(null);
   const aiRequestIdRef = useRef(0);
 
+  // 🔥 New: always keep latest board in a ref
+  const boardRef = useRef(board);
+  useEffect(() => {
+    boardRef.current = board;
+  }, [board]);
+
+  // Load saved scores
   useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
@@ -50,26 +56,22 @@ export default function Game() {
     }
   }, []);
 
-  useEffect(() => {
-    if (lastMove === null) return;
-    evaluateBoard(board, lastMove);
-    setLastMove(null);
-  }, [board, lastMove]);
-
+  // AI moves automatically
   useEffect(() => {
     if (currentTurn === 'X' && !winner) {
       requestComputerMove();
     }
   }, [currentTurn, winner]);
 
-  const evaluateBoard = (currentBoard, symbolJustPlayed) => {
-    const win = calculateWinner(currentBoard);
+  const evaluateBoard = (updatedBoard, symbolJustPlayed) => {
+    const win = calculateWinner(updatedBoard);
 
     if (win) {
       setWinner(win);
       setStatus(win === 'X' ? 'Computer wins!' : 'You win!');
       setCurrentTurn(null);
       setIsComputing(false);
+
       setScores((prev) => {
         const updated = {
           computer: win === 'X' ? prev.computer + 1 : prev.computer,
@@ -80,10 +82,11 @@ export default function Game() {
         }
         return updated;
       });
+
       return;
     }
 
-    if (currentBoard.every((cell) => cell !== null)) {
+    if (updatedBoard.every((cell) => cell !== null)) {
       setWinner('draw');
       setStatus("It's a draw!");
       setCurrentTurn(null);
@@ -92,7 +95,6 @@ export default function Game() {
     }
 
     const nextTurn = symbolJustPlayed === 'X' ? 'O' : 'X';
-    setWinner(null);
     setCurrentTurn(nextTurn);
     setStatus(nextTurn === 'X' ? "Computer's turn" : 'Your turn');
     setIsComputing(nextTurn === 'X');
@@ -100,29 +102,26 @@ export default function Game() {
 
   const placeSymbol = (index, symbol) => {
     if (winner) return;
-    let applied = false;
 
     setBoard((prev) => {
       if (prev[index] !== null) return prev;
-      applied = true;
-      const next = [...prev];
-      next[index] = symbol;
-      return next;
-    });
 
-    if (applied) {
-      setLastMove(symbol);
-    }
+      const updated = [...prev];
+      updated[index] = symbol;
+
+      evaluateBoard(updated, symbol);
+
+      return updated;
+    });
   };
 
   const requestComputerMove = async () => {
-    const available = getEmptyIndices(board);
-    if (!available.length) {
-      setIsComputing(false);
-      return;
-    }
+    const latestBoard = boardRef.current;
+    const available = getEmptyIndices(latestBoard);
+    if (!available.length) return;
 
     const requestId = ++aiRequestIdRef.current;
+
     setIsComputing(true);
     setStatus('Computer is thinking...');
 
@@ -131,12 +130,13 @@ export default function Game() {
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
         mode: 'cors',
-        body: JSON.stringify({ board }),
+        body: JSON.stringify({ board: latestBoard }), // 🔥 use ref instead of stale state
       });
 
       if (!response.ok) throw new Error('API returned an error');
 
       const data = await response.json();
+
       let moveIndex =
         typeof data.index === 'number'
           ? data.index
@@ -144,23 +144,24 @@ export default function Game() {
           ? data.move
           : data.position;
 
-      if (typeof moveIndex !== 'number' || board[moveIndex] !== null) {
+      let updatedBoard = boardRef.current;
+      if (typeof moveIndex !== 'number' || updatedBoard[moveIndex] !== null) {
+        console.warn("Invalid AI move from API, falling back to random.");
         moveIndex = available[Math.floor(Math.random() * available.length)];
       }
 
       if (requestId !== aiRequestIdRef.current) return;
+
       placeSymbol(moveIndex, 'X');
     } catch (error) {
-      console.error('Falling back to random AI move:', error);
+      console.error('AI error - using random move:', error);
+
       if (requestId !== aiRequestIdRef.current) return;
 
-      if (available.length) {
-        const fallbackIndex =
-          available[Math.floor(Math.random() * available.length)];
-        placeSymbol(fallbackIndex, 'X');
-      } else {
-        setIsComputing(false);
-      }
+      const fallbackIndex =
+        available[Math.floor(Math.random() * available.length)];
+
+      placeSymbol(fallbackIndex, 'X');
     }
   };
 
@@ -171,13 +172,14 @@ export default function Game() {
   };
 
   const handleReset = () => {
+    aiRequestIdRef.current += 1;
+
     setBoard(Array(9).fill(null));
     setWinner(null);
     setStatus("Computer's turn");
-    setCurrentTurn('X');
-    setIsComputing(true);
-    setLastMove(null);
-    aiRequestIdRef.current += 1; // invalidate any in-flight AI responses
+    setIsComputing(false);
+
+    setCurrentTurn('X'); // Computer starts
   };
 
   return (
@@ -217,4 +219,3 @@ export default function Game() {
     </div>
   );
 }
-
