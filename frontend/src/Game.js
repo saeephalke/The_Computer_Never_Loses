@@ -136,13 +136,9 @@ export default function Game() {
       if (!response.ok) throw new Error('API returned an error');
 
       const data = await response.json();
+      console.log('AI move data from API:', data);
 
-      let moveIndex =
-        typeof data.index === 'number'
-          ? data.index
-          : typeof data.move === 'number'
-          ? data.move
-          : data.position;
+      let moveIndex = data
 
       let updatedBoard = boardRef.current;
       if (typeof moveIndex !== 'number' || updatedBoard[moveIndex] !== null) {
