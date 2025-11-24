@@ -27,7 +27,7 @@ body,
 .app {
   position: relative;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -71,8 +71,8 @@ body,
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
-  width: min(90vw, 90vh);
-  height: min(90vw, 90vh);
+  width: min(70vw, 70vh);
+  height: min(70vw, 70vh);
 }
 
 .cell {
